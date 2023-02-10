@@ -1,0 +1,87 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+//// INDEX
+
+.index-page {
+  .adress {
+    padding: 24px;
+  }
+}
+
+/// CURRENT EMPLOYEES
+.employees-page {
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+  }
+
+  .displaying {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+  }
+
+  .search-input {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+  }
+
+  .table {
+    width: 100%;
+    border-spacing: 0;
+
+    border-bottom: 1px solid #111;
+
+    thead {
+      tr {
+        display: flex;
+        justify-content: space-evenly;
+
+        th {
+          border-bottom: 1px solid #111;
+          padding: 8px 16px;
+          background-image: url("./assets/sort_both.png");
+          background-repeat: no-repeat;
+          background-position: center right;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .body {
+      background-color: #f9f9f9;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 12px;
+    padding: 24px 0;
+
+    .navigation {
+      display: flex;
+      justify-content: center;
+      column-gap: 12px;
+
+      a {
+        color: grey;
+      }
+    }
+  }
+}
