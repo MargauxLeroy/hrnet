@@ -1,0 +1,33 @@
+.table {
+  width: 100%;
+  border-spacing: 0;
+
+  border-bottom: 1px solid #111;
+
+  table-layout: auto;
+  text-align: start;
+  width: 100%;
+
+  th {
+    border-bottom: 1px solid #111;
+    background-image: url("../../assets/sort.svg");
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-origin: content-box;
+    cursor: pointer;
+  }
+
+  th,
+  td {
+    text-align: start;
+    padding: 16px 4px;
+  }
+
+  .noData {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 24px;
+    justify-content: center;
+  }
+}

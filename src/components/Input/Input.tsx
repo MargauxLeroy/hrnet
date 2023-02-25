@@ -1,3 +1,4 @@
+import TextField from "@mui/material/TextField";
 import React from "react";
 
 import "./input.scss";
@@ -10,9 +11,15 @@ type InputProps = {
 
 export function Input({ label, type, onChange }: InputProps) {
   return (
-    <div className="input-wrapper">
-      <label htmlFor={label}>{label}</label>
-      <input id={label} type={type ?? "text"} onChange={onChange} />
-    </div>
+    <TextField
+      className="input"
+      type={type ?? "text"}
+      // helperText=""
+      // placeholder=""
+      label={label}
+      id="outlined-basic"
+      variant="outlined"
+      onChange={onChange}
+    />
   );
 }

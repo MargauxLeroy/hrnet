@@ -8,7 +8,6 @@ Février-Mars 2023.
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org/en/) v14.x
 - [npm](https://www.npmjs.com/) v8.x
 - [React](https://fr.reactjs.org/) v18.x
 
@@ -18,12 +17,8 @@ Février-Mars 2023.
 - Typescript v4.x : `npm install typescript`
 - React Router v6.x : `npm install react-router-dom`
 - Redux Toolkit : `npm install @reduxjs/toolkit`
-
-### Backend
-
-- Clone repository : `git clone https://github.com/MargauxLeroy/MargauxLeroy_13_122022`
-- Launch MongoDB on terminal : `brew services start mongodb-community`
-- Launch on [localhost:3000](http://localhost:3000) : `npm run start`
+- Material UI : `npm install @mui/material @emotion/react @emotion/styled`
+- Zod : `npm i zod`
 
 ### Frontend
 

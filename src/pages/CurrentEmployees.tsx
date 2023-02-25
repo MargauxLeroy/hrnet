@@ -1,58 +1,46 @@
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Input } from "../components/Input/Input";
+import { Table } from "../components/Table/table";
+
 import "./../pages.scss";
 
 export function CurrentEmployees() {
   return (
     <div className="employees-page">
-      <h1>Current Employees</h1>
-      <div className="header">
-        <div className="displaying">
-          <p>Show </p>
-          <select name="entries" id="entries"></select>
-          <p>entries</p>
-        </div>
-        <div className="search-input">
-          <label htmlFor="search">Search:</label>
-          <input id="search" type="text" />
-        </div>
+      <header>
+        <h1>Current Employees</h1>
+        <Link to={"/"}>Home</Link>
+      </header>
+
+      <div className="pre-table">
+        <FormControl>
+          <InputLabel id="entries">Show entries</InputLabel>
+          <Select
+            labelId="entries"
+            id="entries"
+            label="entries"
+            value={0}
+            onChange={() => {}}
+          >
+            <MenuItem value={0}>10</MenuItem>
+            <MenuItem value={1}>25</MenuItem>
+            <MenuItem value={2}>50</MenuItem>
+            <MenuItem value={3}>100</MenuItem>
+          </Select>
+        </FormControl>
+        <Input label="Rechercher"></Input>
       </div>
-      <table className="table" id="employee-table" role="grid">
-        <thead>
-          <tr role="row">
-            {_thData.map((th) => {
-              return (
-                <th tabIndex={0} rowSpan={1} colSpan={1}>
-                  {th}
-                </th>
-              );
-            })}
-          </tr>
-        </thead>
-        <tbody className="body">
-          <tr>
-            <td className="noData">No data available in table</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <Table></Table>
+
       <div className="bottom">
         <span>Showing 0 to 0 of 0 entries</span>
         <div className="navigation">
-          <a href="">Previous</a>
-          <a href="">Next</a>
+          <a href="#">Previous</a>
+          <a href="#">Next</a>
         </div>
       </div>
-      <Link to={"/"}>Home</Link>
     </div>
   );
 }
-
-const _thData = [
-  "First Name",
-  "Last Name",
-  "Date of Birth",
-  "Start Date",
-  "Street",
-  "City",
-  "State",
-  "Zip Code",
-];

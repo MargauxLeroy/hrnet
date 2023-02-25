@@ -1,7 +1,12 @@
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  row-gap: 8px;
-  text-align: left;
-  padding: 8px 0;
+.input {
+  width: 100%;
 }
+
+// input[type="date"] {
+//   color: transparent;
+
+//   background-image: url("../../assets/calendar.svg");
+//   background-repeat: no-repeat;
+//   background-position: center right;
+//   background-origin: content-box;
+// }
