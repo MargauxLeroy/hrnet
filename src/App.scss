@@ -53,3 +53,7 @@ input {
   // width: 100%;
   border: 1px solid #c4c4c4;
 }
+
+input:focus {
+  border: none;
+}

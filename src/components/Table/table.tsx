@@ -1,101 +1,121 @@
-import React, { useState } from "react";
-import { employees } from "../../data/employees";
+import React from "react";
+import { Pagination } from "../../pages/CurrentEmployees";
+import { Employee } from "../../store/reducers/employeeManagement";
 import { formatDate } from "../../utils";
 
 import "./table.scss";
 
-export function Table() {
-  const [data, setData] = useState(employees);
+type TableProps = {
+  employees: Employee[];
+  pagination: Pagination;
+  onColumnSelected: (column: Column) => void;
+};
+
+export const COLUMNS = {
+  firstName: "firstName",
+  lastName: "lastName",
+  dateBirth: "dateBirth",
+  startDate: "startDate",
+  street: "street",
+  city: "city",
+  zipCode: "zipCode",
+  state: "state",
+  department: "department",
+};
+
+export type Column = keyof typeof COLUMNS;
+
+export function Table({ employees, pagination, onColumnSelected }: TableProps) {
+  const start = pagination.cursor * pagination.step;
+  const end = (pagination.cursor + 1) * pagination.step;
 
   return (
     <table className="table" id="employee-table" role="grid">
       <thead>
         <tr role="row">
           <th
-            colSpan={1}
+            colSpan={2}
             rowSpan={1}
-            onClick={() => {
-              setData(
-                [...data].sort((a, b) => {
-                  if (a.firstName < b.firstName) return -1;
-                  if (a.firstName > b.firstName) return 1;
-
-                  return 0;
-                })
-              );
-            }}
+            onClick={() => onColumnSelected("firstName")}
           >
             First Name
           </th>
           <th
-            colSpan={1}
+            colSpan={2}
             rowSpan={1}
-            onClick={() => {
-              setData(
-                [...data].sort((a, b) => {
-                  if (a.lastName < b.lastName) return -1;
-                  if (a.lastName > b.lastName) return 1;
-
-                  return 0;
-                })
-              );
-            }}
+            onClick={() => onColumnSelected("lastName")}
           >
             Last Name
           </th>
           <th
-            colSpan={1}
+            colSpan={2}
             rowSpan={1}
-            onClick={() => {
-              [...data].sort((a, b) => {
-                return a.dateBirth < b.dateBirth
-                  ? -1
-                  : a.dateBirth > b.dateBirth
-                  ? 1
-                  : 0;
-              });
-            }}
+            onClick={() => onColumnSelected("dateBirth")}
           >
             Date of Birth
           </th>
-          <th colSpan={1} rowSpan={1} onClick={() => {}}>
+          <th
+            colSpan={2}
+            rowSpan={1}
+            onClick={() => onColumnSelected("startDate")}
+          >
             Start Date
           </th>
-          <th colSpan={1} rowSpan={1} onClick={() => {}}>
+          <th
+            colSpan={2}
+            rowSpan={1}
+            onClick={() => onColumnSelected("department")}
+          >
+            Department
+          </th>
+          <th
+            colSpan={2}
+            rowSpan={1}
+            onClick={() => onColumnSelected("street")}
+          >
             Street
           </th>
-          <th colSpan={1} rowSpan={1} onClick={() => {}}>
+          <th colSpan={2} rowSpan={1} onClick={() => onColumnSelected("city")}>
             City
           </th>
-          <th colSpan={1} rowSpan={1} onClick={() => {}}>
+          <th
+            colSpan={1}
+            rowSpan={1}
+            onClick={() => onColumnSelected("zipCode")}
+          >
             Zip Code
           </th>
-          <th colSpan={1} rowSpan={1}>
+          <th colSpan={1} rowSpan={1} onClick={() => onColumnSelected("state")}>
             State
           </th>
         </tr>
       </thead>
 
-      {/* <tbody className="noData">
-        <td className="noData">No data available in table</td>
-      </tbody> */}
-
-      <tbody>
-        {data.map((e, index) => {
-          return (
-            <tr key={index}>
-              <td>{e.firstName}</td>
-              <td>{e.lastName}</td>
-              <td>{formatDate(e.dateBirth)}</td>
-              <td>{formatDate(e.startDate)}</td>
-              <td>{e.adress.street}</td>
-              <td>{e.adress.city}</td>
-              <td>{e.adress.zipCode}</td>
-              <td>{e.adress.state.abbreviation}</td>
-            </tr>
-          );
-        })}
-      </tbody>
+      {employees.length === 0 ? (
+        <tbody className="noData">
+          <tr>
+            <td colSpan={9}>No data available in table</td>
+          </tr>
+        </tbody>
+      ) : (
+        <tbody>
+          {employees.slice(start, end).map((e, index) => {
+            return (
+              <tr key={index}>
+                <td colSpan={2}>{e.firstName}</td>
+                <td colSpan={2}>{e.lastName}</td>
+                <td colSpan={2}>{formatDate(e.dateBirth)}</td>
+                <td colSpan={2}>{formatDate(e.startDate)}</td>
+                <td colSpan={2}>{e.department}</td>
+                <td colSpan={2}>{e.adress.street}</td>
+                <td colSpan={2}>{e.adress.city}</td>
+                <td colSpan={1}>{e.adress.zipCode}</td>
+                <td colSpan={1}>{e.adress.state.abbreviation}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      )}
     </table>
   );
 }

@@ -4,7 +4,7 @@
 
   border-bottom: 1px solid #111;
 
-  table-layout: auto;
+  table-layout: fixed;
   text-align: start;
   width: 100%;
 
@@ -17,6 +17,15 @@
     cursor: pointer;
   }
 
+  // th[data-sort="asc"] {
+  //   background-image: url("../../assets/sort.svg");
+
+  // }
+
+  // th[data-sort="dsc"] {
+  //   background-image: url("../../assets/sort.svg");
+  // }
+
   th,
   td {
     text-align: start;
@@ -24,10 +33,8 @@
   }
 
   .noData {
-    display: flex;
-    flex-direction: column;
     background-color: #f9f9f9;
     padding: 24px;
-    justify-content: center;
+    text-align: center;
   }
 }

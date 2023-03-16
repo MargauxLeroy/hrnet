@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "../components/Input/Input";
@@ -10,6 +16,18 @@ import "./../pages.scss";
 
 export function Index() {
   const [modaleDisplay, setModaleDisplay] = useState<boolean>(false);
+
+  const [department, setDepartment] = useState("");
+
+  const handleDepartmentChange = (event: SelectChangeEvent) => {
+    setDepartment(event.target.value);
+  };
+
+  const [adressState, setAdressState] = useState("");
+
+  const handleAdressStateChange = (event: SelectChangeEvent) => {
+    setAdressState(event.target.value);
+  };
 
   return (
     <div className="index-page">
@@ -41,8 +59,6 @@ export function Index() {
             <label htmlFor="startDate">Start Date</label>
             <input id="startDate" type="date" />
           </div>
-          {/* <Input label="Date of Birth" type="date"></Input>
-          <Input label="Start Date" type="date"></Input> */}
         </div>
         <fieldset className="adress">
           <legend>Adress</legend>
@@ -55,18 +71,19 @@ export function Index() {
             <FormControl fullWidth>
               <InputLabel id="state">State</InputLabel>
               <Select
+                label="State"
                 labelId="state"
                 id="state"
-                label="State"
-                value={0}
-                onChange={() => {}}
+                value={adressState}
+                onChange={handleAdressStateChange}
               >
-                <MenuItem value={0}>--</MenuItem>
-                {states.map((e, index) => (
-                  <MenuItem key={index} value={index + 1}>
-                    {e.name}
-                  </MenuItem>
-                ))}
+                {states.map((e, index) => {
+                  return (
+                    <MenuItem key={index} value={(index + 1) * 10}>
+                      {e.name}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </div>
@@ -75,24 +92,28 @@ export function Index() {
           <FormControl fullWidth>
             <InputLabel id="departement">Département</InputLabel>
             <Select
+              label="Département"
               labelId="departement"
               id="departement"
-              label="Département"
-              value={0}
-              onChange={() => {}}
+              value={department}
+              onChange={handleDepartmentChange}
             >
-              <MenuItem value={0}>--</MenuItem>
-              {departments.map((e, index) => (
-                <MenuItem key={index} value={index + 1}>
-                  {e}
-                </MenuItem>
-              ))}
+              {departments.map((department, index) => {
+                return (
+                  <MenuItem key={index} value={(index + 1) * 10}>
+                    {department}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </div>
         <button
           onClick={(e) => {
             e.preventDefault();
+
+            /// TODO: Vérifier que le form a bien été rempli depuis le store
+            // useDispatch
             setModaleDisplay(true);
           }}
         >
