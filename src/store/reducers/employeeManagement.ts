@@ -29,12 +29,12 @@ type State = {
 export type FormError = {
   fieldId: string;
   message: string;
-}
+};
 
 const initialState: State = {
   employees: employees,
   newEmployee: {},
-  formErrors: null
+  formErrors: null,
 };
 
 /// Création du reducer et des actions
@@ -42,7 +42,10 @@ const { actions: sliceActions, reducer: sliceReducer } = createSlice({
   name: "employee_management",
   initialState: initialState,
   reducers: {
-    updateNewEmployee: (state, action: PayloadAction<RecursivePartial<Employee>>) => {
+    updateNewEmployee: (
+      state,
+      action: PayloadAction<RecursivePartial<Employee>>
+    ) => {
       state.newEmployee = {
         ...state.newEmployee, // Permet de conserver les valeurs précédemment enregistrées
         ...action.payload,
@@ -53,12 +56,12 @@ const { actions: sliceActions, reducer: sliceReducer } = createSlice({
 
       /// Vérifier que l'employé contient toutes les informations et que celles-ci sont valides
       // if (isEmployee(newEmployee) && checkFormValidity(newEmployee).length === 0) {
-        if (isEmployee(newEmployee)) {
+      if (isEmployee(newEmployee)) {
         state.employees.push(newEmployee);
       } else {
         /// On récupère les msgs d'erreurs créés
         state.formErrors = checkFormValidity(newEmployee);
-        
+
         throw new Error(
           "Le formulaire de création d'un nouvel employé n'est pas complet"
         );

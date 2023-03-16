@@ -1,4 +1,3 @@
-import { Column } from "./components/Table/table";
 import { SortConfig } from "./pages/CurrentEmployees";
 import { Employee, FormError } from "./store/reducers/employeeManagement";
 
@@ -82,9 +81,9 @@ export function sortEmployees(employees: Employee[], sortConfig: SortConfig) {
   return employees;
 }
 
-
-export function isEmployee(maybeEmployee: RecursivePartial<Employee>): maybeEmployee is Employee {
-
+export function isEmployee(
+  maybeEmployee: RecursivePartial<Employee>
+): maybeEmployee is Employee {
   if (maybeEmployee.firstName === undefined) {
     return false;
   }
@@ -101,10 +100,12 @@ export function isEmployee(maybeEmployee: RecursivePartial<Employee>): maybeEmpl
     return false;
   }
 
-  if (maybeEmployee.adress?.street === undefined 
-    || maybeEmployee.adress?.city === undefined 
-    || maybeEmployee.adress?.state === undefined 
-    || maybeEmployee.adress?.zipCode === undefined) {
+  if (
+    maybeEmployee.adress?.street === undefined ||
+    maybeEmployee.adress?.city === undefined ||
+    maybeEmployee.adress?.state === undefined ||
+    maybeEmployee.adress?.zipCode === undefined
+  ) {
     return false;
   }
 
@@ -115,16 +116,18 @@ export function isEmployee(maybeEmployee: RecursivePartial<Employee>): maybeEmpl
   return true;
 }
 
-export function checkFormValidity(maybeEmployee: RecursivePartial<Employee>): FormError[] {
-  const errors: FormError[]  = []; 
+export function checkFormValidity(
+  maybeEmployee: RecursivePartial<Employee>
+): FormError[] {
+  const errors: FormError[] = [];
 
   // TODO: disable bouton du form tant que les champs ne sont pas tous complets
   /// Tant que l'employé n'est pas "complet", on ne vérifie pas les champs
   if (!isEmployee(maybeEmployee)) {
     errors.push({
       fieldId: "all",
-      message:"The form is not complete"
-    })
+      message: "The form is not complete",
+    });
 
     return errors;
   }
@@ -132,46 +135,47 @@ export function checkFormValidity(maybeEmployee: RecursivePartial<Employee>): Fo
   if (maybeEmployee.firstName?.length < 2) {
     errors.push({
       fieldId: "firstName",
-      message:"Your firstname should be at least 2 characters"
-    })
+      message: "Your firstname should be at least 2 characters",
+    });
   }
 
   if (maybeEmployee.lastName?.length < 2) {
     errors.push({
       fieldId: "lastName",
-      message:"Your lastname should be at least 2 characters"
-    })
+      message: "Your lastname should be at least 2 characters",
+    });
   }
 
   /// Vérifier que c'est une date et que c'est pas avant 1800 ou après 2005 (ou current - 18ans)
-    if (false) {
-      errors.push({
-        fieldId: "dateBirth",
-        message:"Your date of birth should be complete"
-      })
+  if (false) {
+    errors.push({
+      fieldId: "dateBirth",
+      message: "Your date of birth should be complete",
+    });
   }
 
   /// Vérifier que c'est une date et que c'est pas avant la date de naissance
   if (false) {
     errors.push({
       fieldId: "startDate",
-      message:"Your start date should be after your date of birth"
-    })
-}
+      message: "Your start date should be after your date of birth",
+    });
+  }
 
   if (maybeEmployee.adress.zipCode.toString().length !== 5) {
     errors.push({
       fieldId: "startDate",
-      message:"Your zip code should have exactly 5 digits"
-    })
-}
+      message: "Your zip code should have exactly 5 digits",
+    });
+  }
 
   return errors;
 }
 
 export type RecursivePartial<T> = {
-  [P in keyof T]?:
-    T[P] extends (infer U)[] ? RecursivePartial<U>[] :
-    T[P] extends object ? RecursivePartial<T[P]> :
-    T[P];
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? RecursivePartial<U>[]
+    : T[P] extends object
+    ? RecursivePartial<T[P]>
+    : T[P];
 };
