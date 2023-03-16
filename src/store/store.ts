@@ -7,3 +7,6 @@ export const store = configureStore({
     employeeManagement: EmployeeManagementReducer,
   },
 });
+
+export type AppStore = typeof store;
+export type AppState = ReturnType<typeof store.getState>;

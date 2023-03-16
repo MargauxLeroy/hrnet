@@ -6,28 +6,43 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Input } from "../components/Input/Input";
 import { Modale } from "../components/Modale/modale";
-import { departments } from "../constants/departments";
-import { states } from "../constants/states";
+import { Departement, departments } from "../constants/departments";
+import { AdressState, states } from "../constants/states";
+import { Adress, Employee, employeeManagementActions } from "../store/reducers/employeeManagement";
+import { AppState } from "../store/store";
+import { checkFormValidity, RecursivePartial } from "../utils";
 
 import "./../pages.scss";
 
 export function Index() {
+  const dispatch = useDispatch();
+
+  // const newEmployee = useSelector<AppState, RecursivePartial<Employee>>(
+  //   (state) => state.employeeManagement.newEmployee
+  // );
+
   const [modaleDisplay, setModaleDisplay] = useState<boolean>(false);
 
-  const [department, setDepartment] = useState("");
+  /// Initialisation des variables et de leurs states
+  const [firstName, setFirstName] = useState<string | undefined>();
+  const [lastName, setLastName] = useState<string | undefined>();
+  const [birthDate, setBirthDate] = useState<string | undefined>();
+  const [startDate, setStartDate] = useState<string | undefined>();
 
-  const handleDepartmentChange = (event: SelectChangeEvent) => {
-    setDepartment(event.target.value);
-  };
+  /// useReducer pour faire l'adresse
+  // const [adress, setAdress] = useState<Address | undefined>();
+  const [street, setStreet] = useState<string | undefined>();
+  const [city, setCity] = useState<string | undefined>();
+  const [zipCode, setZipCode] = useState<number | undefined>();
+  const [adressState, setAddressState] = useState<AdressState["abbreviation"] | undefined>();
 
-  const [adressState, setAdressState] = useState("");
+  const [department, setDepartment] = useState<Departement | undefined> ();
 
-  const handleAdressStateChange = (event: SelectChangeEvent) => {
-    setAdressState(event.target.value);
-  };
+  // console.log('newEmployee', newEmployee);
 
   return (
     <div className="index-page">
@@ -47,43 +62,42 @@ export function Index() {
       </header>
       <form action="">
         <div className="form-line">
-          <Input label="First Name"></Input>
-          <Input label="Last Name"></Input>
+          <Input label="First Name" onChange={(e) => setFirstName(e.target.value)}></Input>
+          <Input label="Last Name" onChange={(e) => setLastName(e.target.value)}></Input>
         </div>
         <div className="form-line">
           <div className="date-input">
             <label htmlFor="birthDate">Date of Birth</label>
-            <input id="birthDate" type="date" />
+            <input id="birthDate" type="date" onChange={(e) => setBirthDate(e.target.value == null ? undefined : e.target.value)}/>
           </div>
           <div className="date-input">
             <label htmlFor="startDate">Start Date</label>
-            <input id="startDate" type="date" />
+            <input id="startDate" type="date" onChange={(e) => setStartDate(e.target.value == null ? undefined : e.target.value)}/>
           </div>
         </div>
         <fieldset className="adress">
           <legend>Adress</legend>
-          <Input label="Street"></Input>
+          <Input label="Street" onChange={(e) => setStreet(e.target.value)}></Input>
           <div className="form-line">
-            <Input label="City"></Input>
-            <Input label="Zip-code" type="number"></Input>
+            <Input label="City" onChange={(e) => setCity(e.target.value)}></Input>
+            <Input label="Zip-code" type="number" onChange={(e) => setZipCode(e.target.valueAsNumber)}></Input>
           </div>
           <div>
             <FormControl fullWidth>
               <InputLabel id="state">State</InputLabel>
               <Select
-                label="State"
                 labelId="state"
                 id="state"
+                label="State"
                 value={adressState}
-                onChange={handleAdressStateChange}
+                onChange={(e) => {setAddressState(e.target.value as AdressState["abbreviation"])}}
               >
-                {states.map((e, index) => {
-                  return (
-                    <MenuItem key={index} value={(index + 1) * 10}>
-                      {e.name}
-                    </MenuItem>
-                  );
-                })}
+                <MenuItem value={undefined}>--</MenuItem>
+                {states.map((e, index) => (
+                  <MenuItem key={index} value={e.abbreviation}>
+                    {e.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </div>
@@ -96,25 +110,57 @@ export function Index() {
               labelId="departement"
               id="departement"
               value={department}
-              onChange={handleDepartmentChange}
+              onChange={(e) => {
+                setDepartment(e.target.value as Departement)
+              }}
             >
-              {departments.map((department, index) => {
-                return (
-                  <MenuItem key={index} value={(index + 1) * 10}>
-                    {department}
-                  </MenuItem>
-                );
-              })}
+              <MenuItem value={undefined}>--</MenuItem>
+              {departments.map((e, index) => (
+                <MenuItem key={index} value={e}>
+                  {e}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>
         <button
           onClick={(e) => {
             e.preventDefault();
+            
+            const formNewEmployee: RecursivePartial<Employee> = {
+              firstName: firstName,
+              lastName: lastName,
+              dateBirth: birthDate,
+              startDate: startDate,
+              adress: {
+                street: street,
+                city: city,
+                zipCode: zipCode,
+                state: adressState
+              },
+              department: department,
+            };
 
-            /// TODO: Vérifier que le form a bien été rempli depuis le store
-            // useDispatch
-            setModaleDisplay(true);
+            console.log('formNewEmployee', formNewEmployee);
+
+            /// On met à jour le nouvel employé
+            dispatch(employeeManagementActions.updateNewEmployee(formNewEmployee));
+
+            /// On récupère les potentiels msg d'erreurs
+            const errorMessages = checkFormValidity(formNewEmployee);
+
+            /// Si c'est vide, c'est que les champs ont passé leur étape de validation
+            /// On valide la création et l'ajout dans la liste des employés
+            if (errorMessages.length === 0) {
+              // dispatch(employeeManagementActions.addEmployee);
+              setModaleDisplay(true);
+
+              /// TODO: clear form
+            } 
+            /// Sinon, on récupère les msg pour les afficher côté vue
+            else {
+              console.log('errorMessages', errorMessages);
+            }
           }}
         >
           Save

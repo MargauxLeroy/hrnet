@@ -104,13 +104,13 @@ export function Table({ employees, pagination, onColumnSelected }: TableProps) {
               <tr key={index}>
                 <td colSpan={2}>{e.firstName}</td>
                 <td colSpan={2}>{e.lastName}</td>
-                <td colSpan={2}>{formatDate(e.dateBirth)}</td>
-                <td colSpan={2}>{formatDate(e.startDate)}</td>
+                <td colSpan={2}>{formatDate(new Date(e.dateBirth))}</td>
+                <td colSpan={2}>{formatDate(new Date(e.startDate))}</td>
                 <td colSpan={2}>{e.department}</td>
                 <td colSpan={2}>{e.adress.street}</td>
                 <td colSpan={2}>{e.adress.city}</td>
                 <td colSpan={1}>{e.adress.zipCode}</td>
-                <td colSpan={1}>{e.adress.state.abbreviation}</td>
+                <td colSpan={1}>{e.adress.state}</td>
               </tr>
             );
           })}
