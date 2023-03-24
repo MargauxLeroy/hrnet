@@ -5,7 +5,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "../components/Input/Input";
 import { Column, Table } from "../components/Table/table";
@@ -95,12 +95,18 @@ export function CurrentEmployees() {
     const maxNumberOfPages = Math.floor(
       filteredEmployees.length / pagination.step
     );
+
     if (pagination.cursor > maxNumberOfPages - 1) {
       setPagination({
         cursor: Math.floor(filteredEmployees.length / pagination.step) - 2,
       });
     }
-  }, [filteredEmployees.length, pagination.step, setPagination]);
+  }, [
+    filteredEmployees.length,
+    pagination.step,
+    pagination.cursor,
+    setPagination,
+  ]);
 
   return (
     <div className="employees-page">

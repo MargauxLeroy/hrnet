@@ -58,7 +58,7 @@ export function Index() {
         <Link to={"/currentEmployees"}>View Current Employees</Link>
         <h2>Create Employee</h2>
       </header>
-      <form action="">
+      <form action="" id="create-new-employee">
         <div className="form-line">
           <Input
             label="First Name"
@@ -192,6 +192,8 @@ export function Index() {
               setModaleDisplay(true);
 
               /// TODO: clear form
+              // document.getElementById("create-new-employee").reset();
+              // e.target.reset();
             }
             /// Sinon, on récupère les msg pour les afficher côté vue
             else {
