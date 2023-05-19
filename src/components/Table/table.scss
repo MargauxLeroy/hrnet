@@ -17,13 +17,20 @@
     cursor: pointer;
   }
 
-  // th[data-sort="asc"] {
-  //   background-image: url("../../assets/sort.svg");
+  .asc {
+    background-image: url("../../assets/sort_asc.svg");
+  }
 
+  .dsc {
+    background-image: url("../../assets/sort_dsc.svg");
+  }
+
+  // th[data-sort="asc"] {
+  //   background-image: url("../../assets/sort_asc.svg");
   // }
 
   // th[data-sort="dsc"] {
-  //   background-image: url("../../assets/sort.svg");
+  //   background-image: url("../../assets/sort_dsc.svg");
   // }
 
   th,

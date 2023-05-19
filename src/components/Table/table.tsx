@@ -36,7 +36,9 @@ export function Table({ employees, pagination, onColumnSelected }: TableProps) {
           <th
             colSpan={2}
             rowSpan={1}
-            onClick={() => onColumnSelected("firstName")}
+            onClick={() => {
+              onColumnSelected("firstName");
+            }}
           >
             First Name
           </th>

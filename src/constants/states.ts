@@ -1,5 +1,3 @@
-export type AdressState = typeof states[number];
-
 export const states = [
   {
     name: "Alabama",

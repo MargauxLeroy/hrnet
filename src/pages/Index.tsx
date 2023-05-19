@@ -1,25 +1,25 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useState } from "react";
+import { Modal } from "modale_npm_lib";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Input } from "../components/Input/Input";
-import { Modale } from "../components/Modale/modale";
-import { Departement, departments } from "../constants/departments";
-import { AdressState, states } from "../constants/states";
+
 import {
+  AdressState,
+  Departement,
   Employee,
+  FormError,
   employeeManagementActions,
 } from "../store/reducers/employeeManagement";
 import { checkFormValidity, RecursivePartial } from "../utils";
 
 import "./../pages.scss";
+import { departments } from "../constants/departments";
+import { states } from "../constants/states";
 
 export function Index() {
   const dispatch = useDispatch();
-
-  // const newEmployee = useSelector<AppState, RecursivePartial<Employee>>(
-  //   (state) => state.employeeManagement.newEmployee
-  // );
 
   const [modaleDisplay, setModaleDisplay] = useState<boolean>(false);
 
@@ -40,11 +40,15 @@ export function Index() {
 
   const [department, setDepartment] = useState<Departement | undefined>();
 
-  // console.log('newEmployee', newEmployee);
+  /// Référence pour retrouver le form depuis le DOM (via React)
+  const formRef = useRef<HTMLFormElement>(null);
+
+  /// Mise à jour des msg d'erreurs
+  const [formErrors, setFormErrors] = useState<FormError[]>([]);
 
   return (
     <div className="index-page">
-      <Modale
+      <Modal
         title="Confirmation"
         description="Your employee has been created !"
         displayed={modaleDisplay}
@@ -52,13 +56,13 @@ export function Index() {
           e.preventDefault();
           setModaleDisplay(false);
         }}
-      ></Modale>
+      ></Modal>
       <header>
         <h1>HRnet</h1>
         <Link to={"/currentEmployees"}>View Current Employees</Link>
         <h2>Create Employee</h2>
       </header>
-      <form action="" id="create-new-employee">
+      <form action="" id="create-new-employee" ref={formRef}>
         <div className="form-line">
           <Input
             label="First Name"
@@ -175,34 +179,33 @@ export function Index() {
               department: department,
             };
 
-            console.log("formNewEmployee", formNewEmployee);
-
             /// On met à jour le nouvel employé
             dispatch(
               employeeManagementActions.updateNewEmployee(formNewEmployee)
             );
 
             /// On récupère les potentiels msg d'erreurs
-            const errorMessages = checkFormValidity(formNewEmployee);
+            setFormErrors(checkFormValidity(formNewEmployee));
 
             /// Si c'est vide, c'est que les champs ont passé leur étape de validation
             /// On valide la création et l'ajout dans la liste des employés
-            if (errorMessages.length === 0) {
-              // dispatch(employeeManagementActions.addEmployee);
+            if (formErrors.length === 0) {
+              dispatch(employeeManagementActions.addEmployee());
+
               setModaleDisplay(true);
 
-              /// TODO: clear form
-              // document.getElementById("create-new-employee").reset();
-              // e.target.reset();
-            }
-            /// Sinon, on récupère les msg pour les afficher côté vue
-            else {
-              console.log("errorMessages", errorMessages);
+              /// On vide le formulaire et les 2 listes déroulantes
+              formRef.current?.reset();
             }
           }}
         >
           Save
         </button>
+        {formErrors.map((error) => (
+          <span id={error.fieldId} className="errorMessages">
+            {error.message}
+          </span>
+        ))}
       </form>
     </div>
   );

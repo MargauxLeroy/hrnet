@@ -9,10 +9,13 @@ import { useEffect, useReducer, useState } from "react";
 import { Link } from "react-router-dom";
 import { Input } from "../components/Input/Input";
 import { Column, Table } from "../components/Table/table";
-import { employees } from "../data/employees";
+// import { employees } from "../data/employees";
 import { filterEmployees, sortEmployees } from "../utils";
 
 import "./../pages.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "../store/store";
+import { Employee } from "../store/reducers/employeeManagement";
 
 type Step = 10 | 25 | 50 | 100;
 
@@ -40,6 +43,10 @@ export function CurrentEmployees() {
       return { ...state, ...partialPagination };
     },
     { cursor: 0, step: 10 }
+  );
+
+  const employees = useSelector<AppState, Employee[]>(
+    (state) => state.employeeManagement.employees
   );
 
   const [sortConfig, selectColumn] = useReducer(
