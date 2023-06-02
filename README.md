@@ -2,14 +2,14 @@
 
 HRNet.
 Passer une librairie jQuery vers React.
-Février-Mars 2023.
+Mars-Juin 2023.
 
-### Prerequisites
+## Prerequisites
 
 - [npm](https://www.npmjs.com/) v8.x
 - [React](https://fr.reactjs.org/) v18.x
 
-### Dependencies
+## Dependencies
 
 - SAAS v1.x : `npm install sass --save-dev`
 - Typescript v4.x : `npm install typescript`
@@ -17,7 +17,11 @@ Février-Mars 2023.
 - Redux Toolkit : `npm install @reduxjs/toolkit`
 - Material UI : `npm install @mui/material @emotion/react @emotion/styled`
 
-### Front
+## Front
 
 - Clone repository : `https://github.com/MargauxLeroy/MargauxLeroy_13_122022_Front`
 - Launch on [localhost:3001](http://localhost:3001) : `npm run start`
+
+## Production
+
+- [Production site](https://lovely-choux-4eb4ca.netlify.app/)

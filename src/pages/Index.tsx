@@ -17,6 +17,7 @@ import { checkFormValidity, RecursivePartial } from "../utils";
 import "./../pages.scss";
 import { departments } from "../constants/departments";
 import { states } from "../constants/states";
+import { InputDate } from "../components/InputDate/inputDate";
 
 export function Index() {
   const dispatch = useDispatch();
@@ -74,30 +75,20 @@ export function Index() {
           ></Input>
         </div>
         <div className="form-line">
-          <div className="date-input">
-            <label htmlFor="birthDate">Date of Birth</label>
-            <input
-              id="birthDate"
-              type="date"
-              onChange={(e) =>
-                setBirthDate(
-                  e.target.value == null ? undefined : e.target.value
-                )
-              }
-            />
-          </div>
-          <div className="date-input">
-            <label htmlFor="startDate">Start Date</label>
-            <input
-              id="startDate"
-              type="date"
-              onChange={(e) =>
-                setStartDate(
-                  e.target.value == null ? undefined : e.target.value
-                )
-              }
-            />
-          </div>
+          <InputDate
+            label="Date of Birth"
+            id="birthDate"
+            onChange={(e) =>
+              setBirthDate(e.target.value == null ? undefined : e.target.value)
+            }
+          ></InputDate>
+          <InputDate
+            label="Start Date"
+            id="startDate"
+            onChange={(e) =>
+              setStartDate(e.target.value == null ? undefined : e.target.value)
+            }
+          ></InputDate>
         </div>
         <fieldset className="adress">
           <legend>Adress</legend>
